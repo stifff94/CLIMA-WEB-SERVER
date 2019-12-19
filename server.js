@@ -11,7 +11,7 @@ require('./hbs/helpers');
 const getInfo = async(ciudad,ciudad2) => {
     console.log("llego")
     try {
-        const coords = await ubicacion.getCiudadLatLon(ciudad,ciudad2);
+        const coords = await ubicacion.getCiudadLatLon(ciudad);
         console.log(coords)
         const temp = await clima.getClima(coords.lat, coords.lon);
         console.log("temp",temp)
@@ -38,9 +38,13 @@ app.get('/', function(req, res) {
             });
         }
         else{
-            res.render('home', {    
+            console.log(archivo[0])
+            en=parseFloat(archivo[0])+6.08
+            total = en.toFixed(2);
+            total = parseFloat(total);
+            res.render('home', { 
                 datos1: archivo[0],
-                datos2: archivo[1],
+                datos2: total,
             });
         }
         
@@ -64,9 +68,13 @@ app.get('/about', function(req, res) {
             });
         }
         else{
-            res.render('about', {    
+            console.log(archivo[0])
+            en=parseFloat(archivo[0])+1.92
+            total = en.toFixed(2);
+            total = parseFloat(total);
+            res.render('about', { 
                 datos1: archivo[0],
-                datos2: archivo[1],
+                datos2: total,
             });
         }
         
