@@ -11,7 +11,8 @@ require('./hbs/helpers');
 const getInfo = async(ciudad,ciudad2) => {
     console.log("llego")
     try {
-        const coords = await ubicacion.getCiudadLatLon(ciudad);
+        const coords = await ubicacion.getCiudadLatLon(ciudad,ciudad2);
+        console.log(coords)
         const temp = await clima.getClima(coords.lat, coords.lon);
         console.log("temp",temp)
         return [temp,temp];
