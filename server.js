@@ -12,10 +12,9 @@ const getInfo = async(ciudad,ciudad2) => {
     console.log("llego")
     try {
         const coords = await ubicacion.getCiudadLatLon(ciudad);
-        const coords2 = await ubicacion.getCiudadLatLon(ciudad2);
-        const temp = await clima.getClima(coords.lat, coords.lon, coords.lat, coords.lon);
+        const temp = await clima.getClima(coords.lat, coords.lon);
         console.log("temp",temp)
-        return [temp[0],temp[1]];
+        return [temp,temp];
     } catch (e) {
         return `Fallo: tiempo de espera acabado`;
     }
