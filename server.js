@@ -13,7 +13,7 @@ const getInfo = async(ciudad,ciudad2) => {
     try {
         const coords = await ubicacion.getCiudadLatLon(ciudad);
         const temp = await clima.getClima(coords.lat, coords.lon);
-        return [temp,temp];
+        return temp;
     } catch (e) {
         return `Fallo: tiempo de espera acabado`;
     }
