@@ -8,18 +8,20 @@ const clima = require('./controlador/clima');
 const hbs = require('hbs');
 require('./hbs/helpers');
 
-const getInfo = async(ciudad) => {
+const getInfo = async(ciudad,ciudad2) => {
     console.log("llego")
     try {
         const coords = await ubicacion.getCiudadLatLon(ciudad);
-        const temp = await clima.getClima(coords.lat, coords.lon);
-        return temp;
+        const coords2 = await ubicacion.getCiudadLatLon(ciudad2);
+        const temp = await clima.getClima(coords.lat, coords.lon, coords2.lat, coords2.lon);
+        console.log("temp",temp)
+        return [temp[0],temp[1]];
     } catch (e) {
         return `Fallo: tiempo de espera acabado`;
     }
 }
 
-const port = process.env.PORT || 2000;
+const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -28,22 +30,18 @@ hbs.registerPartials(__dirname + '/views/parciales');
 app.set('view engine', 'hbs');
 
 app.get('/', function(req, res) {
-    getInfo("Quito").then(archivo =>{
+    getInfo("Quito","Guayaquil").then(archivo =>{
         if(archivo.length > 2){
-            getInfo("Guayaquil").then(archivo2 =>{
-            console.log(temp)
             res.render('home', {    
                 datos1: archivo,
-                datos2: archivo2,
-            }); })   
+                datos2: archivo,
+            });
         }
         else{
-            getInfo("Guayaquil").then(archivo2 =>{
-                console.log(archivo2)
-                res.render('home', {    
-                    datos1: archivo,
-                    datos2: archivo2,
-                }); }) 
+            res.render('home', {    
+                datos1: archivo[0],
+                datos2: archivo[1],
+            });
         }
         
         
@@ -58,24 +56,22 @@ app.get('/', function(req, res) {
 
 app.get('/about', function(req, res) {
     
-    getInfo("Madrid").then(archivo =>{
+    getInfo("Madrid","Paris").then(archivo =>{
         if(archivo.length > 2){
-            getInfo("Paris").then(archivo2 =>{
             res.render('about', {    
                 datos1: archivo,
-                datos2: archivo2,
-            }); })   
+                datos2: archivo,
+            });
         }
         else{
-            getInfo("Paris").then(archivo2 =>{
-                console.log(archivo2)
-                res.render('about', {    
-                    datos1: archivo,
-                    datos2: archivo2,
-                }); }) 
-        } 
+            res.render('about', {    
+                datos1: archivo[0],
+                datos2: archivo[1],
+            });
+        }
+        
     }).catch(error =>{
-        res.render('home', {    
+        res.render('about', {    
             datos1: error,
         });
     });
