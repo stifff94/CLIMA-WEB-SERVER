@@ -13,7 +13,7 @@ const getInfo = async(ciudad,ciudad2) => {
     try {
         const coords = await ubicacion.getCiudadLatLon(ciudad);
         const coords2 = await ubicacion.getCiudadLatLon(ciudad2);
-        const temp = await clima.getClima(coords.lat, coords.lon, coords2.lat, coords2.lon);
+        const temp = await clima.getClima(coords.lat, coords.lon, coords.lat, coords.lon);
         console.log("temp",temp)
         return [temp[0],temp[1]];
     } catch (e) {
