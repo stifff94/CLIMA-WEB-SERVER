@@ -19,7 +19,7 @@ const getInfo = async(ciudad) => {
     }
 }
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2000;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -31,16 +31,19 @@ app.get('/', function(req, res) {
     getInfo("Quito").then(archivo =>{
         if(archivo.length > 2){
             getInfo("Guayaquil").then(archivo2 =>{
+            console.log(temp)
             res.render('home', {    
                 datos1: archivo,
                 datos2: archivo2,
             }); })   
         }
         else{
-            res.render('home', {    
-                datos1: archivo[0],
-                datos2: archivo[1],
-            });
+            getInfo("Guayaquil").then(archivo2 =>{
+                console.log(archivo2)
+                res.render('home', {    
+                    datos1: archivo,
+                    datos2: archivo2,
+                }); }) 
         }
         
         
@@ -58,16 +61,18 @@ app.get('/about', function(req, res) {
     getInfo("Madrid").then(archivo =>{
         if(archivo.length > 2){
             getInfo("Paris").then(archivo2 =>{
-            res.render('home', {    
+            res.render('about', {    
                 datos1: archivo,
                 datos2: archivo2,
             }); })   
         }
         else{
-            res.render('home', {    
-                datos1: archivo[0],
-                datos2: archivo[1],
-            });
+            getInfo("Paris").then(archivo2 =>{
+                console.log(archivo2)
+                res.render('about', {    
+                    datos1: archivo,
+                    datos2: archivo2,
+                }); }) 
         } 
     }).catch(error =>{
         res.render('home', {    
